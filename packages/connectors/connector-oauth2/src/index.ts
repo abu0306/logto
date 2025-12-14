@@ -88,6 +88,14 @@ const getUserInfo =
       })
     );
 
+    console.log(
+      '======getUserInfo======',
+      data,
+      JSON.stringify(parsedConfig),
+      parsedConfig,
+      redirectUri
+    );
+
     const { access_token, token_type } = await getAccessToken(parsedConfig, data, redirectUri);
     return _getUserInfo(parsedConfig, token_type, access_token);
   };
@@ -105,6 +113,14 @@ const getTokenResponseAndUserInfo =
       new ConnectorError(ConnectorErrorCodes.General, {
         message: 'Cannot find `redirectUri` from connector session.',
       })
+    );
+
+    console.log(
+      '================getTokenResponseAndUserInfo=',
+      data,
+      JSON.stringify(parsedConfig),
+      parsedConfig,
+      redirectUri
     );
 
     const tokenResponse = await getAccessToken(parsedConfig, data, redirectUri);
@@ -126,6 +142,13 @@ const getAccessTokenByRefreshToken =
   async (refreshToken: string) => {
     const config = await getConfig(defaultMetadata.id);
     validateConfig(config, oauth2ConnectorConfigGuard);
+
+    console.log(
+      '==========getAccessTokenByRefreshToken==========',
+      getAccessTokenByRefreshToken,
+      refreshToken
+    );
+
     return _getAccessTokenByRefreshToken(config, refreshToken);
   };
 
