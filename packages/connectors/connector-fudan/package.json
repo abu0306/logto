@@ -27,15 +27,13 @@
   "scripts": {
     "precommit": "lint-staged",
     "check": "tsc --noEmit",
-    "build": "tsup && tsc --declaration --emitDeclarationOnly",
+    "build": "tsup",
     "dev": "tsup --watch",
     "lint": "eslint --ext .ts src",
     "lint:report": "pnpm lint --format json --output-file report.json",
     "test": "vitest src",
     "test:ci": "pnpm run test --silent --coverage",
-    "prepublishOnly": "pnpm build",
-    "prepack": "pnpm build",
-    "build:test": "pnpm build"
+    "prepublishOnly": "pnpm build"
   },
   "engines": {
     "node": "^22.14.0"
