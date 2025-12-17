@@ -25,7 +25,6 @@ export const defaultMetadata: ConnectorMetadata = {
     ko: 'Fudan University connector for Logto',
   },
   readme: './README.md',
-  isStandard: true,
   formItems: [
     {
       key: 'clientId',
