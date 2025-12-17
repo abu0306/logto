@@ -82,6 +82,8 @@ export const requestTokenEndpoint = async ({
 
   const { clientId, clientSecret, ...requestBodyWithoutClientCredentials } = tokenRequestBody;
 
+  console.log('===================', tokenRequestBody);
+
   switch (tokenEndpointAuthOptions.method) {
     case TokenEndpointAuthMethod.ClientSecretJwt: {
       const clientSecretJwt = await new SignJWT({

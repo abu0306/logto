@@ -16,16 +16,19 @@ import {
 } from '@logto/connector-kit';
 import ky, { HTTPError } from 'ky';
 
-import { defaultMetadata, defaultTimeout } from './constant.js';
-import { constructAuthorizationUri } from './oauth2/utils.js';
+import {
+  authorizationEndpoint,
+  defaultMetadata,
+  defaultTimeout,
+  userInfoEndpoint,
+} from './constant.js';
 import { type Oauth2ConnectorConfig, oauth2ConnectorConfigGuard } from './types.js';
 import {
+  constructAuthorizationUri,
   userProfileMapping,
   getAccessToken,
   getAccessTokenByRefreshToken as _getAccessTokenByRefreshToken,
 } from './utils.js';
-
-export * from './oauth2/index.js';
 
 const getAuthorizationUri =
   (getConfig: GetConnectorConfig): GetAuthorizationUri =>
@@ -36,13 +39,10 @@ const getAuthorizationUri =
 
     await setSession({ redirectUri });
 
-    const { authorizationEndpoint, customConfig } = parsedConfig;
-
     return constructAuthorizationUri(authorizationEndpoint, {
       ...pick(parsedConfig, 'responseType', 'clientId', 'scope'),
       redirectUri,
       state,
-      ...customConfig,
       // If scope is provided, it will override the scope in the config.
       ...conditional(scope && { scope }),
     });
@@ -54,7 +54,7 @@ const _getUserInfo = async (
   access_token: string
 ) => {
   try {
-    const httpResponse = await ky.get(config.userInfoEndpoint, {
+    const httpResponse = await ky.get(userInfoEndpoint, {
       headers: {
         authorization: `${token_type} ${access_token}`,
       },
