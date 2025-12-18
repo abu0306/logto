@@ -4,15 +4,9 @@ import snakecaseKeys from 'snakecase-keys';
 import { ConnectorError, ConnectorErrorCodes, parseJson } from '@logto/connector-kit';
 import { type KyResponse } from 'ky';
 import ky, { HTTPError } from 'ky';
-import qs from 'query-string';
 
 import { accessTokenEndpoint } from './constant.js';
-import type {
-  Oauth2ConnectorConfig,
-  TokenEndpointResponseType,
-  ProfileMap,
-  Oauth2AccessTokenResponse,
-} from './types.js';
+import type { Oauth2ConnectorConfig, ProfileMap, Oauth2AccessTokenResponse } from './types.js';
 import {
   oauth2AccessTokenResponseGuard,
   oauth2AuthResponseGuard,
@@ -20,13 +14,10 @@ import {
 } from './types.js';
 
 const accessTokenResponseHandler = async (
-  response: KyResponse,
-  tokenEndpointResponseType: TokenEndpointResponseType
+  response: KyResponse
 ): Promise<Oauth2AccessTokenResponse> => {
   const responseContent = await response.text();
-  const result = oauth2AccessTokenResponseGuard.safeParse(
-    tokenEndpointResponseType === 'json' ? parseJson(responseContent) : qs.parse(responseContent)
-  ); // Why it works with qs.parse()
+  const result = oauth2AccessTokenResponseGuard.safeParse(parseJson(responseContent)); // Why it works with qs.parse()
 
   if (!result.success) {
     throw new ConnectorError(ConnectorErrorCodes.InvalidResponse, result.error);
@@ -76,7 +67,7 @@ export const getAccessToken = async (
 
   const { code } = result.data;
 
-  const { grantType, tokenEndpointResponseType, clientId, clientSecret } = config;
+  const { grantType, clientId, clientSecret } = config;
 
   const tokenResponse = await requestTokenEndpoint({
     tokenRequestBody: {
@@ -88,14 +79,14 @@ export const getAccessToken = async (
     },
   });
 
-  return accessTokenResponseHandler(tokenResponse, tokenEndpointResponseType);
+  return accessTokenResponseHandler(tokenResponse);
 };
 
 export const getAccessTokenByRefreshToken = async (
   config: Oauth2ConnectorConfig,
   refreshToken: string
 ): Promise<Oauth2AccessTokenResponse> => {
-  const { tokenEndpointResponseType, clientId, clientSecret } = config;
+  const { clientId, clientSecret } = config;
 
   const tokenResponse = await requestTokenEndpoint({
     tokenRequestBody: {
@@ -106,7 +97,7 @@ export const getAccessTokenByRefreshToken = async (
     },
   });
 
-  return accessTokenResponseHandler(tokenResponse, tokenEndpointResponseType);
+  return accessTokenResponseHandler(tokenResponse);
 };
 
 export type RequestTokenEndpointOptions = {
@@ -138,6 +129,8 @@ export const requestTokenEndpoint = async ({
     form: Record<string, string>;
     headers?: Record<string, string>;
   }) => {
+    console.log('=============requestTokenEndpoint==========', form, headers);
+
     try {
       return await ky.post(accessTokenEndpoint, {
         headers,

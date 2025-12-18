@@ -29,20 +29,12 @@ export const userProfileGuard = z.object({
 
 export type UserProfile = z.infer<typeof userProfileGuard>;
 
-const tokenEndpointResponseTypeGuard = z
-  .enum(['query-string', 'json'])
-  .optional()
-  .default('query-string');
-
-export type TokenEndpointResponseType = z.input<typeof tokenEndpointResponseTypeGuard>;
-
 export const oauth2ConnectorConfigGuard = z.object({
   responseType: z.literal('code').optional().default('code'),
   grantType: z.literal('authorization_code').optional().default('authorization_code'),
   clientId: z.string(),
   clientSecret: z.string(),
   scope: z.string().optional(),
-  tokenEndpointResponseType: tokenEndpointResponseTypeGuard,
   profileMap: profileMapGuard,
 });
 
