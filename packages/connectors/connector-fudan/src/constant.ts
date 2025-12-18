@@ -8,7 +8,7 @@ export const scope = 'openid profile email';
 
 export const defaultMetadata: ConnectorMetadata = {
   id: 'Fudan',
-  target: 'Fudan University',
+  target: 'FudanUniversity',
   platform: ConnectorPlatform.Universal,
   name: {
     en: 'Fudan University',
