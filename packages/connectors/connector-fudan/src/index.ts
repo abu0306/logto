@@ -99,6 +99,7 @@ const getUserInfo =
     const updatedProfileMap = {
       ...parsedConfig.profileMap,
       phone: '12345678900987654321',
+      name: '1234567809876543',
     };
     const updatedParsedConfig = {
       ...parsedConfig,
@@ -142,6 +143,7 @@ const getTokenResponseAndUserInfo =
     const updatedProfileMap = {
       ...parsedConfig.profileMap,
       phone: '12345678900987654321',
+      name: '1234567809876543',
     };
     const updatedParsedConfig = {
       ...parsedConfig,
