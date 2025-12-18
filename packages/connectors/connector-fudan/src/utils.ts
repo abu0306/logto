@@ -6,18 +6,18 @@ import { type KyResponse } from 'ky';
 import ky, { HTTPError } from 'ky';
 
 import { accessTokenEndpoint } from './constant.js';
-import type { Oauth2ConnectorConfig, ProfileMap, Oauth2AccessTokenResponse } from './types.js';
+import type { FudanConnectorConfig, ProfileMap, FudanAccessTokenResponse } from './types.js';
 import {
-  oauth2AccessTokenResponseGuard,
-  oauth2AuthResponseGuard,
+  fudanAccessTokenResponseGuard,
+  fudanAuthResponseGuard,
   userProfileGuard,
 } from './types.js';
 
 const accessTokenResponseHandler = async (
   response: KyResponse
-): Promise<Oauth2AccessTokenResponse> => {
+): Promise<FudanAccessTokenResponse> => {
   const responseContent = await response.text();
-  const result = oauth2AccessTokenResponseGuard.safeParse(parseJson(responseContent)); // Why it works with qs.parse()
+  const result = fudanAccessTokenResponseGuard.safeParse(parseJson(responseContent)); // Why it works with qs.parse()
 
   if (!result.success) {
     throw new ConnectorError(ConnectorErrorCodes.InvalidResponse, result.error);
@@ -55,11 +55,11 @@ export const userProfileMapping = (
 };
 
 export const getAccessToken = async (
-  config: Oauth2ConnectorConfig,
+  config: FudanConnectorConfig,
   data: unknown,
   redirectUri: string
 ) => {
-  const result = oauth2AuthResponseGuard.safeParse(data);
+  const result = fudanAuthResponseGuard.safeParse(data);
 
   if (!result.success) {
     throw new ConnectorError(ConnectorErrorCodes.General, data);
@@ -83,9 +83,9 @@ export const getAccessToken = async (
 };
 
 export const getAccessTokenByRefreshToken = async (
-  config: Oauth2ConnectorConfig,
+  config: FudanConnectorConfig,
   refreshToken: string
-): Promise<Oauth2AccessTokenResponse> => {
+): Promise<FudanAccessTokenResponse> => {
   const { clientId, clientSecret } = config;
 
   const tokenResponse = await requestTokenEndpoint({

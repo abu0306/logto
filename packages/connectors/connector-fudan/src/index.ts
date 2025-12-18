@@ -22,7 +22,7 @@ import {
   defaultTimeout,
   userInfoEndpoint,
 } from './constant.js';
-import { type Oauth2ConnectorConfig, oauth2ConnectorConfigGuard } from './types.js';
+import { type FudanConnectorConfig, fudanConnectorConfigGuard } from './types.js';
 import {
   constructAuthorizationUri,
   userProfileMapping,
@@ -34,8 +34,8 @@ const getAuthorizationUri =
   (getConfig: GetConnectorConfig): GetAuthorizationUri =>
   async ({ state, redirectUri, scope }, setSession) => {
     const config = await getConfig(defaultMetadata.id);
-    validateConfig(config, oauth2ConnectorConfigGuard);
-    const parsedConfig = oauth2ConnectorConfigGuard.parse(config);
+    validateConfig(config, fudanConnectorConfigGuard);
+    const parsedConfig = fudanConnectorConfigGuard.parse(config);
 
     await setSession({ redirectUri });
 
@@ -49,7 +49,7 @@ const getAuthorizationUri =
   };
 
 const _getUserInfo = async (
-  config: Oauth2ConnectorConfig,
+  config: FudanConnectorConfig,
   token_type: string,
   access_token: string
 ) => {
@@ -77,8 +77,8 @@ const getUserInfo =
   (getConfig: GetConnectorConfig): GetUserInfo =>
   async (data, getSession) => {
     const config = await getConfig(defaultMetadata.id);
-    validateConfig(config, oauth2ConnectorConfigGuard);
-    const parsedConfig = oauth2ConnectorConfigGuard.parse(config);
+    validateConfig(config, fudanConnectorConfigGuard);
+    const parsedConfig = fudanConnectorConfigGuard.parse(config);
 
     const { redirectUri } = await getSession();
     assert(
@@ -88,21 +88,7 @@ const getUserInfo =
       })
     );
 
-    const updatedProfileMap = {
-      ...parsedConfig.profileMap,
-      phone: '12345678900987654321',
-      name: '1234567809876543',
-    };
-    const updatedParsedConfig = {
-      ...parsedConfig,
-      profileMap: updatedProfileMap,
-    };
-
-    const { access_token, token_type } = await getAccessToken(
-      updatedParsedConfig,
-      data,
-      redirectUri
-    );
+    const { access_token, token_type } = await getAccessToken(parsedConfig, data, redirectUri);
     return _getUserInfo(parsedConfig, token_type, access_token);
   };
 
@@ -110,8 +96,8 @@ const getTokenResponseAndUserInfo =
   (getConfig: GetConnectorConfig): GetTokenResponseAndUserInfo =>
   async (data, getSession) => {
     const config = await getConfig(defaultMetadata.id);
-    validateConfig(config, oauth2ConnectorConfigGuard);
-    const parsedConfig = oauth2ConnectorConfigGuard.parse(config);
+    validateConfig(config, fudanConnectorConfigGuard);
+    const parsedConfig = fudanConnectorConfigGuard.parse(config);
 
     const { redirectUri } = await getSession();
     assert(
@@ -137,16 +123,16 @@ const getAccessTokenByRefreshToken =
   (getConfig: GetConnectorConfig): GetAccessTokenByRefreshToken =>
   async (refreshToken: string) => {
     const config = await getConfig(defaultMetadata.id);
-    validateConfig(config, oauth2ConnectorConfigGuard);
+    validateConfig(config, fudanConnectorConfigGuard);
 
     return _getAccessTokenByRefreshToken(config, refreshToken);
   };
 
-const createOauthConnector: CreateConnector<SocialConnector> = async ({ getConfig }) => {
+const createFudanConnector: CreateConnector<SocialConnector> = async ({ getConfig }) => {
   return {
     metadata: defaultMetadata,
     type: ConnectorType.Social,
-    configGuard: oauth2ConnectorConfigGuard,
+    configGuard: fudanConnectorConfigGuard,
     getAuthorizationUri: getAuthorizationUri(getConfig),
     getUserInfo: getUserInfo(getConfig),
     getTokenResponseAndUserInfo: getTokenResponseAndUserInfo(getConfig),
@@ -154,4 +140,4 @@ const createOauthConnector: CreateConnector<SocialConnector> = async ({ getConfi
   };
 };
 
-export default createOauthConnector;
+export default createFudanConnector;

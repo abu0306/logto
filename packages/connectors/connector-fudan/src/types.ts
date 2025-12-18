@@ -29,7 +29,7 @@ export const userProfileGuard = z.object({
 
 export type UserProfile = z.infer<typeof userProfileGuard>;
 
-export const oauth2ConnectorConfigGuard = z.object({
+export const fudanConnectorConfigGuard = z.object({
   responseType: z.literal('code').optional().default('code'),
   grantType: z.literal('authorization_code').optional().default('authorization_code'),
   clientId: z.string(),
@@ -38,16 +38,16 @@ export const oauth2ConnectorConfigGuard = z.object({
   profileMap: profileMapGuard,
 });
 
-export type Oauth2ConnectorConfig = z.infer<typeof oauth2ConnectorConfigGuard>;
+export type FudanConnectorConfig = z.infer<typeof fudanConnectorConfigGuard>;
 
-export const oauth2AuthResponseGuard = z.object({
+export const fudanAuthResponseGuard = z.object({
   code: z.string(),
   state: z.string().optional(),
 });
 
-export type Oauth2AuthResponse = z.infer<typeof oauth2AuthResponseGuard>;
+export type FudanAuthResponse = z.infer<typeof fudanAuthResponseGuard>;
 
-export const oauth2AccessTokenResponseGuard = z.object({
+export const fudanAccessTokenResponseGuard = z.object({
   access_token: z.string(),
   token_type: z.string(),
   expires_in: z.number().optional(),
@@ -55,4 +55,4 @@ export const oauth2AccessTokenResponseGuard = z.object({
   scope: z.string().optional(),
 });
 
-export type Oauth2AccessTokenResponse = z.infer<typeof oauth2AccessTokenResponseGuard>;
+export type FudanAccessTokenResponse = z.infer<typeof fudanAccessTokenResponseGuard>;
