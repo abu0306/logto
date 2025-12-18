@@ -11,7 +11,7 @@ export const defaultMetadata: ConnectorMetadata = {
   target: 'Fudan University',
   platform: ConnectorPlatform.Universal,
   name: {
-    en: 'Fudan University。',
+    en: 'Fudan University',
     'zh-CN': '复旦大学',
     'tr-TR': 'Fudan University',
     ko: 'Fudan University',
@@ -19,10 +19,10 @@ export const defaultMetadata: ConnectorMetadata = {
   logo: 'https://cdn.atominnolab.com/university/fudan.svg',
   logoDark: null,
   description: {
-    en: 'Fudan University connector for Logto',
-    'zh-CN': '复旦大学 connector',
-    'tr-TR': 'Fudan University connector',
-    ko: 'Fudan University connector',
+    en: 'Fudan University',
+    'zh-CN': '复旦大学',
+    'tr-TR': 'Fudan University',
+    ko: 'Fudan University',
   },
   readme: './README.md',
   formItems: [
