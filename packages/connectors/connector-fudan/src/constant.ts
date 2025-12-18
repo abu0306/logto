@@ -8,7 +8,7 @@ export const scope = 'openid profile email';
 
 export const defaultMetadata: ConnectorMetadata = {
   id: 'Fudan',
-  target: 'Fudan',
+  target: 'Fudan University',
   platform: ConnectorPlatform.Universal,
   name: {
     en: 'Fudan University。',
@@ -16,7 +16,7 @@ export const defaultMetadata: ConnectorMetadata = {
     'tr-TR': 'Fudan University',
     ko: 'Fudan University',
   },
-  logo: './logo.svg',
+  logo: 'https://cdn.atominnolab.com/university/fudan.svg',
   logoDark: null,
   description: {
     en: 'Fudan University connector for Logto',

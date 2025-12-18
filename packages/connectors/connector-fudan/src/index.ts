@@ -88,14 +88,6 @@ const getUserInfo =
       })
     );
 
-    console.log(
-      '======getUserInfo======',
-      data,
-      JSON.stringify(parsedConfig),
-      parsedConfig,
-      redirectUri
-    );
-
     const updatedProfileMap = {
       ...parsedConfig.profileMap,
       phone: '12345678900987654321',
@@ -111,9 +103,6 @@ const getUserInfo =
       data,
       redirectUri
     );
-
-    console.log('======getUserInfo=====001=', access_token, token_type);
-
     return _getUserInfo(parsedConfig, token_type, access_token);
   };
 
@@ -132,36 +121,12 @@ const getTokenResponseAndUserInfo =
       })
     );
 
-    console.log(
-      '================getTokenResponseAndUserInfo=',
-      data,
-      JSON.stringify(parsedConfig),
-      parsedConfig,
-      redirectUri
-    );
-
-    const updatedProfileMap = {
-      ...parsedConfig.profileMap,
-      phone: '12345678900987654321',
-      name: '1234567809876543',
-    };
-    const updatedParsedConfig = {
-      ...parsedConfig,
-      profileMap: updatedProfileMap,
-    };
-
-    const tokenResponse = await getAccessToken(updatedParsedConfig, data, redirectUri);
-
-    console.log('================getTokenResponseAndUserInfo=002', tokenResponse);
-
+    const tokenResponse = await getAccessToken(parsedConfig, data, redirectUri);
     const userInfo = await _getUserInfo(
-      updatedParsedConfig,
+      parsedConfig,
       tokenResponse.token_type,
       tokenResponse.access_token
     );
-
-    console.log('====================getTokenResponseAndUserInfo=003=============', userInfo);
-
     return {
       tokenResponse,
       userInfo,
@@ -173,12 +138,6 @@ const getAccessTokenByRefreshToken =
   async (refreshToken: string) => {
     const config = await getConfig(defaultMetadata.id);
     validateConfig(config, oauth2ConnectorConfigGuard);
-
-    console.log(
-      '==========getAccessTokenByRefreshToken==========',
-      getAccessTokenByRefreshToken,
-      refreshToken
-    );
 
     return _getAccessTokenByRefreshToken(config, refreshToken);
   };

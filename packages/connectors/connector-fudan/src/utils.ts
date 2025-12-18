@@ -129,8 +129,6 @@ export const requestTokenEndpoint = async ({
     form: Record<string, string>;
     headers?: Record<string, string>;
   }) => {
-    console.log('=============requestTokenEndpoint==========', form, headers);
-
     try {
       return await ky.post(accessTokenEndpoint, {
         headers,
