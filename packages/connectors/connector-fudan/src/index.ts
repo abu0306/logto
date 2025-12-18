@@ -128,11 +128,15 @@ const getTokenResponseAndUserInfo =
 
     const tokenResponse = await getAccessToken(parsedConfig, data, redirectUri);
 
+    console.log('================getTokenResponseAndUserInfo=002', tokenResponse);
+
     const userInfo = await _getUserInfo(
       parsedConfig,
       tokenResponse.token_type,
       tokenResponse.access_token
     );
+
+    console.log('====================getTokenResponseAndUserInfo=003=============', userInfo);
 
     return {
       tokenResponse,
