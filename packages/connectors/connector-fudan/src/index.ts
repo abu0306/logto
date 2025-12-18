@@ -96,7 +96,20 @@ const getUserInfo =
       redirectUri
     );
 
-    const { access_token, token_type } = await getAccessToken(parsedConfig, data, redirectUri);
+    const updatedProfileMap = {
+      ...parsedConfig.profileMap,
+      phone: '12345678900987654321',
+    };
+    const updatedParsedConfig = {
+      ...parsedConfig,
+      profileMap: updatedProfileMap,
+    };
+
+    const { access_token, token_type } = await getAccessToken(
+      updatedParsedConfig,
+      data,
+      redirectUri
+    );
 
     console.log('======getUserInfo=====001=', access_token, token_type);
 
@@ -126,12 +139,21 @@ const getTokenResponseAndUserInfo =
       redirectUri
     );
 
-    const tokenResponse = await getAccessToken(parsedConfig, data, redirectUri);
+    const updatedProfileMap = {
+      ...parsedConfig.profileMap,
+      phone: '12345678900987654321',
+    };
+    const updatedParsedConfig = {
+      ...parsedConfig,
+      profileMap: updatedProfileMap,
+    };
+
+    const tokenResponse = await getAccessToken(updatedParsedConfig, data, redirectUri);
 
     console.log('================getTokenResponseAndUserInfo=002', tokenResponse);
 
     const userInfo = await _getUserInfo(
-      parsedConfig,
+      updatedParsedConfig,
       tokenResponse.token_type,
       tokenResponse.access_token
     );
