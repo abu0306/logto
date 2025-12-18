@@ -16,13 +16,13 @@ export const defaultMetadata: ConnectorMetadata = {
     'tr-TR': 'Fudan University',
     ko: 'Fudan University',
   },
-  logo: './logo.png',
+  logo: './logo.svg',
   logoDark: null,
   description: {
     en: 'Fudan University connector for Logto',
-    'zh-CN': '复旦大学 connector for Logto',
-    'tr-TR': 'Fudan University connector for Logto',
-    ko: 'Fudan University connector for Logto',
+    'zh-CN': '复旦大学 connector',
+    'tr-TR': 'Fudan University connector',
+    ko: 'Fudan University connector',
   },
   readme: './README.md',
   formItems: [
